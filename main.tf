@@ -64,3 +64,22 @@ resource "azurerm_mssql_server" "SQLserver" {
   administrator_login = "sqladmin"
   administrator_login_password = var.sqladmin_pass
 }
+
+resource "azurerm_log_analytics_workspace" "LogAnalyticsWorkspace" {
+  name = "lga-workspace"
+  resource_group_name = azurerm_resource_group.RG-1.name
+  location = local.region1
+}
+
+resource "azurerm_log_analytics_solution" "LogAnalyticsSolution" {
+  solution_name = "lga-solution"
+  resource_group_name = azurerm_resource_group.RG-1.name
+  location = local.region1
+  workspace_resource_id = azurerm_log_analytics_workspace.LogAnalyticsWorkspace.id
+  workspace_name = azurerm_log_analytics_workspace.LogAnalyticsWorkspace.name
+  plan {
+    publisher = "Microsoft"
+    product = "OMSGallery/AzureActivity"
+    promotion_code = "Maxi"
+  }
+}
