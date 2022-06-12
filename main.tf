@@ -3,6 +3,7 @@ terraform {
     storage_account_name = "hack"
     container_name = "pu-infra"
     key = "terraform.tfstate"
+    # Traté de sacar esto de acá y ponerlo como variable pero no me deja usar vars acá (no sé por qué)
     access_key = "snVh+5xM4ZJ1Qmh6hrRlZo3t9oTJSPvIE0h8PHfUqwSGttZaW6rOJv4ghbA59WTHWzCoM671ncmD+AStw7ghQw=="
   }
   required_providers {
@@ -21,7 +22,7 @@ provider "azurerm" {
   client_secret = var.svc_acct_key
 }
 
-resource "azurerm_resource_group" "RG-1" {
+ resource "azurerm_resource_group" "RG-1" {
   location = "eastus2"
   name = "resource-group-1"
 }
@@ -30,3 +31,23 @@ resource "azurerm_resource_group" "RG-2" {
   location = "centralus"
   name = "resource-group-2"
 }
+
+resource "azurerm_app_service_plan" "AppServicePlan-1" {
+  name = "app-service-plan-1"
+  location = azurerm_resource_group.RG-1.location
+  resource_group_name = azurerm_resource_group.RG-1.name
+  sku {
+    tier = "Standard"
+    size = "S1"
+  }
+}
+
+resource "azurerm_app_service" "AppService-1" {
+  name = "hack-app-service-1"
+  location = azurerm_resource_group.RG-1.location
+  resource_group_name = azurerm_resource_group.RG-1.name
+  app_service_plan_id = azurerm_app_service_plan.AppServicePlan-1.id
+
+  site_config {}
+}
+
