@@ -20,3 +20,13 @@ provider "azurerm" {
   tenant_id = "c912770d-be52-40ca-9d40-77536a8b2f67"
   client_secret = var.svc_acct_key
 }
+
+resource "azurerm_resource_group" "RG-1" {
+  location = "eastus2"
+  name = "resource-group-1"
+}
+
+resource "azurerm_resource_group" "RG-2" {
+  location = "centralus"
+  name = "resource-group-2"
+}
