@@ -1,3 +1,6 @@
+# Excluyo contraseñas
+secrets.tfvars
+
 # Local .terraform directories
 **/.terraform/*
 
