@@ -72,7 +72,8 @@ resource "azurerm_log_analytics_workspace" "LogAnalyticsWorkspace" {
 }
 
 resource "azurerm_log_analytics_solution" "LogAnalyticsSolution" {
-  solution_name = "lga-solution"
+  # Nota: este nombre tiene que ser el mismo que va en product después de la /, si no te tira un error incomprensible (https://github.com/Azure/azure-rest-api-specs/issues/9672)
+  solution_name = "AzureActivity"   
   resource_group_name = azurerm_resource_group.RG-1.name
   location = local.region1
   workspace_resource_id = azurerm_log_analytics_workspace.LogAnalyticsWorkspace.id
