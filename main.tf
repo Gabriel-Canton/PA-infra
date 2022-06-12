@@ -22,19 +22,24 @@ provider "azurerm" {
   client_secret = var.svc_acct_key
 }
 
+locals {
+  region1 = "eastus2"
+  region2 = "centralus"
+}
+
  resource "azurerm_resource_group" "RG-1" {
-  location = "eastus2"
+  location = local.region1
   name = "resource-group-1"
 }
 
 resource "azurerm_resource_group" "RG-2" {
-  location = "centralus"
+  location = local.region2
   name = "resource-group-2"
 }
 
 resource "azurerm_app_service_plan" "AppServicePlan-1" {
   name = "app-service-plan-1"
-  location = azurerm_resource_group.RG-1.location
+  location = local.region1
   resource_group_name = azurerm_resource_group.RG-1.name
   sku {
     tier = "Standard"
@@ -44,10 +49,18 @@ resource "azurerm_app_service_plan" "AppServicePlan-1" {
 
 resource "azurerm_app_service" "AppService-1" {
   name = "hack-app-service-1"
-  location = azurerm_resource_group.RG-1.location
+  location = local.region1
   resource_group_name = azurerm_resource_group.RG-1.name
   app_service_plan_id = azurerm_app_service_plan.AppServicePlan-1.id
 
   site_config {}
 }
 
+resource "azurerm_mssql_server" "SQLserver" {
+  name = "hack-sql-server"
+  location = local.region1
+  resource_group_name = azurerm_resource_group.RG-1.name
+  version = "12.0"
+  administrator_login = "sqladmin"
+  administrator_login_password = var.sqladmin_pass
+}
