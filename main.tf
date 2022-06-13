@@ -37,7 +37,7 @@ resource "azurerm_resource_group" "RG-2" {
   name = "resource-group-2"
 }
 
-resource "azurerm_app_service_plan" "AppServicePlan-1" {
+/*resource "azurerm_app_service_plan" "AppServicePlan-1" {
   name = "app-service-plan-1"
   location = local.region1
   resource_group_name = azurerm_resource_group.RG-1.name
@@ -54,6 +54,16 @@ resource "azurerm_app_service" "AppService-1" {
   app_service_plan_id = azurerm_app_service_plan.AppServicePlan-1.id
 
   site_config {}
+}
+*/
+
+module "app_service" {
+  source = "./Modules/AppService"
+  AS_plan_name = "app-service-plan-1"
+  AS_plan_sku = {tier="Standard", size="S1"}
+  AS_name = "hack-app-service-1"
+  AS_location = local.region1
+  AS_RG = azurerm_resource_group.RG-1.name
 }
 
 resource "azurerm_mssql_server" "SQLserver" {
