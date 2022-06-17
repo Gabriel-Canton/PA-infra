@@ -48,7 +48,7 @@ on:
   push:
     branches:
       - "main"
-    paths_ignore:
+    paths-ignore:
       - '.github/workflows/*'
   pull_request:
 
