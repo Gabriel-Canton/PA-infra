@@ -2,7 +2,7 @@ variable "AS_plan_name" {
   description = "App Service plan name"
 }
 
-/*
+/* This section was moved to the modules variables.tf
 variable "AS_plan_location" {
   description = "App Service plan location"
 }
