@@ -49,6 +49,7 @@ on:
     branches:
       - "main"
     paths-ignore:
+      # Don't trigger workflow upon changes to workflows files themselves
       - '.github/workflows/*'
   pull_request:
 
