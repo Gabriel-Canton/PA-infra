@@ -47,7 +47,9 @@ name: 'Terraform'
 on:
   push:
     branches:
-    - "main"
+      - "main"
+    paths_ignore:
+      - '.github/workflows/*'
   pull_request:
 
 permissions:
@@ -68,11 +70,12 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-
+    
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
+    - name: HashiCorp - Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
+        # The API token for a Terraform Cloud/Enterprise instance to place within the credentials block of the Terraform CLI configuration file.
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
