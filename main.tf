@@ -25,26 +25,26 @@ provider "azurerm" {
 locals {
   region1 = "eastus2"
   region2 = "centralus"
-  rg1 = "resource-group-1"
-  rg2 = "resource-group-2"
+  rg1     = "resource-group-1"
+  rg2     = "resource-group-2"
 }
 
 module "HA_resources" {
   source = "./Modules/HA resources"
-  RESOURCES = [ 
+  RESOURCES = [
     {
-      app_insights_name = "app-insights-1"
-      app_service_name = "app-service-1"
+      app_insights_name     = "app-insights-1"
+      app_service_name      = "app-service-1"
       app_service_plan_name = "app-service-plan-1"
-      location = local.region1
-      resource_group_name = local.rg1
+      location              = local.region1
+      resource_group_name   = local.rg1
     },
     {
-      app_insights_name = "app-insights-2"
-      app_service_name = "app-service-2"
+      app_insights_name     = "app-insights-2"
+      app_service_name      = "app-service-2"
       app_service_plan_name = "app-service-plan-2"
-      location = local.region2
-      resource_group_name = local.rg2
+      location              = local.region2
+      resource_group_name   = local.rg2
     }
   ]
   /*LOCATION = local.region1

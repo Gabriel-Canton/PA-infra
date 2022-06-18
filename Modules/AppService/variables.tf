@@ -13,7 +13,7 @@ variable "AS_plan_RG" {
 */
 variable "AS_plan_sku" {
   description = "App Service plan SKU"
-  type = object({tier=string, size=string})
+  type        = object({ tier = string, size = string })
 }
 
 variable "AS_name" {
@@ -25,5 +25,5 @@ variable "AS_location" {
 }
 
 variable "AS_RG" {
-  description = "App Service Resource Group name"  
+  description = "App Service Resource Group name"
 }
