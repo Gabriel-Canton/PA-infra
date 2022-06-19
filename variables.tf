@@ -18,5 +18,5 @@ variable "secondary_region" {
 
 variable "RESOURCE_GROUP_NAMES" {
   description = "Names of the Resource Groups to create, one for each region"
-  type = list(string)
+  type        = list(string)
 }
