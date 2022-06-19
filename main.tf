@@ -21,14 +21,14 @@ provider "azurerm" {
   tenant_id       = "c912770d-be52-40ca-9d40-77536a8b2f67"
   client_secret   = var.svc_acct_key
 }
-
+/*
 locals {
   region1 = "eastus2"
   region2 = "centralus"
   rg1     = "resource-group-1"
   rg2     = "resource-group-2"
 }
-
+*/
 module "HA_resources" {
   source = "./Modules/HA resources"
   RESOURCES = [
@@ -36,15 +36,15 @@ module "HA_resources" {
       app_insights_name     = "app-insights-1"
       app_service_name      = "app-service-1"
       app_service_plan_name = "app-service-plan-1"
-      location              = local.region1
-      resource_group_name   = local.rg1
+      location              = var.main_region
+      resource_group_name   = var.RESOURCE_GROUP_NAMES[0]
     },
     {
       app_insights_name     = "app-insights-2"
       app_service_name      = "app-service-2"
       app_service_plan_name = "app-service-plan-2"
-      location              = local.region2
-      resource_group_name   = local.rg2
+      location              = var.secondary_region
+      resource_group_name   = var.RESOURCE_GROUP_NAMES[1]
     }
   ]
   /*LOCATION = local.region1
@@ -99,8 +99,8 @@ module "app_service" {
 
 resource "azurerm_mssql_server" "SQLserver" {
   name                         = "hack-sql-server"
-  location                     = local.region1
-  resource_group_name          = local.rg1
+  location                     = var.main_region
+  resource_group_name          = var.RESOURCE_GROUP_NAMES[0]
   version                      = "12.0"
   administrator_login          = "sqladmin"
   administrator_login_password = var.sqladmin_pass
@@ -108,15 +108,15 @@ resource "azurerm_mssql_server" "SQLserver" {
 
 resource "azurerm_log_analytics_workspace" "LogAnalyticsWorkspace" {
   name                = "lga-workspace"
-  resource_group_name = local.rg1
-  location            = local.region1
+  resource_group_name = var.RESOURCE_GROUP_NAMES[0]
+  location            = var.main_region
 }
 
 resource "azurerm_log_analytics_solution" "LogAnalyticsSolution" {
   # Nota: este nombre tiene que ser el mismo que va en product después de la /, si no te tira un error incomprensible (https://github.com/Azure/azure-rest-api-specs/issues/9672)
   solution_name         = "AzureActivity"
-  resource_group_name   = local.rg1
-  location              = local.region1
+  resource_group_name   = var.RESOURCE_GROUP_NAMES[0]
+  location              = var.main_region
   workspace_resource_id = azurerm_log_analytics_workspace.LogAnalyticsWorkspace.id
   workspace_name        = azurerm_log_analytics_workspace.LogAnalyticsWorkspace.name
   plan {
