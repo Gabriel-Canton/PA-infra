@@ -11,13 +11,13 @@ module "app_service" {
   AS_plan_sku  = { tier = "Standard", size = "S1" }
   AS_name      = var.RESOURCES[count.index].app_service_name
   AS_location  = var.RESOURCES[count.index].location
-  AS_RG        = var.RESOURCES[count.index].resource_group_name
+  AS_RG        = azurerm_resource_group.RES-GRPS[count.index].name
 }
 
 resource "azurerm_application_insights" "APP_INSIGHTS_NAME" {
   count               = length(var.RESOURCES)
   name                = var.RESOURCES[count.index].app_insights_name
   location            = var.RESOURCES[count.index].location
-  resource_group_name = var.RESOURCES[count.index].resource_group_name
+  resource_group_name = azurerm_resource_group.RES-GRPS[count.index].name
   application_type    = "web"
 }
