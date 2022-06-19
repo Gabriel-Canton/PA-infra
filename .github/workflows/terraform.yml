@@ -111,4 +111,4 @@ jobs:
     
     # Destroy everything to keep credits!
     - name: Terraform Destroy
-      run: terraform destroy -auto-approve -input=false
+      run: terraform destroy -auto-approve -input=false -var 'svc_acct_key=${{ secrets.AZURE_SVC_ACCT_KEY }}' -var 'sqladmin_pass=${{ secrets.SQL_ADMIN_PASS }}'
