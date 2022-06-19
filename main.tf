@@ -25,14 +25,7 @@ provider "azurerm" {
   tenant_id       = "c912770d-be52-40ca-9d40-77536a8b2f67"
   client_secret   = var.svc_acct_key
 }
-/*
-locals {
-  region1 = "eastus2"
-  region2 = "centralus"
-  rg1     = "resource-group-1"
-  rg2     = "resource-group-2"
-}
-*/
+
 module "HA_resources" {
   source = "./Modules/HA resources"
   # Los nombres de los App Service tienen que ser globalmente únicos
@@ -52,55 +45,7 @@ module "HA_resources" {
       resource_group_name   = var.RESOURCE_GROUP_NAMES[1]
     }
   ]
-  /*LOCATION = local.region1
-  RESOURCE_GROUP = "resource-group-1"
-  APP_INSIGHTS_NAME = "PU-app-insights-1"
-  APP_SVC_PLAN_NAME = "PU-app-svc-plan-1"
-  APP_SVC_NAME = "PU-app-svc-1"
-  */
 }
-/*
-resource "azurerm_resource_group" "RG-1" {
-  location = local.region1
-  name     = "resource-group-1"
-}
-
-resource "azurerm_resource_group" "RG-2" {
-  location = local.region2
-  name     = "resource-group-2"
-}
-*/
-
-/*resource "azurerm_app_service_plan" "AppServicePlan-1" {
-  name = "app-service-plan-1"
-  location = local.region1
-  resource_group_name = azurerm_resource_group.RG-1.name
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
-}
-
-resource "azurerm_app_service" "AppService-1" {
-  name = "hack-app-service-1"
-  location = local.region1
-  resource_group_name = azurerm_resource_group.RG-1.name
-  app_service_plan_id = azurerm_app_service_plan.AppServicePlan-1.id
-
-  site_config {}
-}
-*/
-
-/*
-module "app_service" {
-  source       = "./Modules/AppService"
-  AS_plan_name = "app-service-plan-1"
-  AS_plan_sku  = { tier = "Standard", size = "S1" }
-  AS_name      = "hack-app-service-1"
-  AS_location  = local.region1
-  AS_RG        = azurerm_resource_group.RG-1.name
-}
-*/
 
 resource "azurerm_mssql_server" "SQLserver" {
   name                         = "hack-sql-server"
