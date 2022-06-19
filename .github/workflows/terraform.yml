@@ -111,4 +111,4 @@ jobs:
     
     # Destroy everything to keep credits!
     - name: Terraform Destroy
-      run: terraform destroy -auto-approve
+      run: terraform destroy -auto-approve -input=false
