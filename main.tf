@@ -100,7 +100,7 @@ module "app_service" {
 resource "azurerm_mssql_server" "SQLserver" {
   name                         = "hack-sql-server"
   location                     = var.main_region
-  resource_group_name          = var.RESOURCE_GROUP_NAMES[0]
+  resource_group_name          = module.HA_resources.resource-group-names[0]
   version                      = "12.0"
   administrator_login          = "sqladmin"
   administrator_login_password = var.sqladmin_pass
@@ -108,14 +108,14 @@ resource "azurerm_mssql_server" "SQLserver" {
 
 resource "azurerm_log_analytics_workspace" "LogAnalyticsWorkspace" {
   name                = "lga-workspace"
-  resource_group_name = var.RESOURCE_GROUP_NAMES[0]
+  resource_group_name = module.HA_resources.resource-group-names[0]
   location            = var.main_region
 }
 
 resource "azurerm_log_analytics_solution" "LogAnalyticsSolution" {
   # Nota: este nombre tiene que ser el mismo que va en product después de la /, si no te tira un error incomprensible (https://github.com/Azure/azure-rest-api-specs/issues/9672)
   solution_name         = "AzureActivity"
-  resource_group_name   = var.RESOURCE_GROUP_NAMES[0]
+  resource_group_name   = module.HA_resources.resource-group-names[0]
   location              = var.main_region
   workspace_resource_id = azurerm_log_analytics_workspace.LogAnalyticsWorkspace.id
   workspace_name        = azurerm_log_analytics_workspace.LogAnalyticsWorkspace.name
