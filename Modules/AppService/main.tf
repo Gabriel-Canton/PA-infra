@@ -16,4 +16,3 @@ resource "azurerm_app_service" "AppService" {
 
   site_config {}
 }
-
