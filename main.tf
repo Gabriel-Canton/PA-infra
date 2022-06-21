@@ -32,7 +32,7 @@ module "HA_resources" {
   RESOURCES = [
     {
       app_insights_name     = "app-insights-1"
-      app_service_name      = "app-svc-lkjshg-1"
+      app_service_name      = "app-svc-lkjshgafds-1"
       app_service_plan_name = "app-service-plan-1"
       location              = var.main_region
       resource_group_name   = var.RESOURCE_GROUP_NAMES[0]
